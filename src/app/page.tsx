@@ -56,8 +56,24 @@ export default function Home() {
 
       <ul className="space-y-2">
         {lists.map((list) => (
-          <li key={list.id} className="border p-2 rounded bg-white">
-            <span>{list.title}</span>
+          <li key={list.id} className="border p-2 rounded bg-white flex justify-between items-center">
+            <label className='flex items-center gap-2 w-full'>
+              <input
+                type='checkbox'
+                checked={list.completed}
+                onChange={async () => {
+                  await fetch(`/api/lists/${list.id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ completed: !list.completed }),
+                  })
+                fetchLists()
+                }}
+              />
+              <span className={list.completed ? 'line-through text-gray-500' : ''}>
+                {list.title}
+              </span>
+            </label>
             <button
               onClick={async () => {
                 await fetch(`/api/lists/${list.id}`, { method: 'DELETE' })
