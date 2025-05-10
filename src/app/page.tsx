@@ -57,7 +57,16 @@ export default function Home() {
       <ul className="space-y-2">
         {lists.map((list) => (
           <li key={list.id} className="border p-2 rounded bg-white">
-            {list.title}
+            <span>{list.title}</span>
+            <button
+              onClick={async () => {
+                await fetch(`/api/lists/${list.id}`, { method: 'DELETE' })
+                fetchLists()
+              }}
+              className='text-red-500 hover:underline'
+            >
+              削除
+            </button>
           </li>
         ))}
       </ul>
